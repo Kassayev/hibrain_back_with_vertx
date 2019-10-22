@@ -1,0 +1,16 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: vertx
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: postgres
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: kNOpKA228
