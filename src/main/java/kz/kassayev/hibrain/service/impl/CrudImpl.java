@@ -22,7 +22,7 @@ public class CrudImpl implements Crud {
 
   private static final String UPDATE = "UPDATE employees SET firstName = ?, lastName = ?, patronymic = ?, telephone = ?, email = ?, country = ?, city = ? WHERE id = ?";
 
-  private static final String DELETE = "DELETE FROM employees FROM id = ?";
+  private static final String DELETE = "DELETE FROM employees WHERE id = ?";
 
   private static final String SELECT_ONE = "SELECT * FROM employees WHERE id = ?";
 
@@ -132,7 +132,7 @@ public class CrudImpl implements Crud {
         return conn.rxUpdateWithParams(DELETE, params)
           .flatMapCompletable(up -> {
             if (up.getUpdated() == 0) {
-              return Completable.error(new NoSuchElementException("Unknown item : " + id + ";"));
+              return Completable.error(new NoSuchElementException("Unknown item '" + id + "'"));
             }
             return Completable.complete();
           })
@@ -172,9 +172,9 @@ public class CrudImpl implements Crud {
       || item.getString("city").isEmpty()) {
       return Optional.of(new IllegalArgumentException("The city is required"));
     }
-  /*  if (item.containsKey("id")) {
+    if (item.containsKey("id")) {
       return Optional.of(new IllegalArgumentException("ID was invalidly set on request"));
-    }*/
+    }
     return Optional.empty();
   }
 }

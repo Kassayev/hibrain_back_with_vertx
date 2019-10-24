@@ -9,8 +9,5 @@
         <module name="hibrain" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="hibrain" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

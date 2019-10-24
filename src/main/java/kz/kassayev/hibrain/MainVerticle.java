@@ -28,7 +28,7 @@ public class MainVerticle extends AbstractVerticle {
   @Override
   public void start() throws Exception {
     Router router = Router.router(vertx);
-
+/*
     CorsHandler corsHandler = CorsHandler.create("*");
     corsHandler
       .allowedMethod(HttpMethod.GET)
@@ -54,9 +54,10 @@ public class MainVerticle extends AbstractVerticle {
       .exposedHeader("ETag");
 
     router.route().handler(corsHandler);
-
+*/
     router.route().handler(BodyHandler.create());
     router.route("/api/employees/:id").handler(this::validateId);
+
     router.get("/api/employees").handler(this::retrieveAll);
     router.post("/api/employees").handler(this::addOne);
     router.get("/api/employees/:id").handler(this::getOne);
@@ -84,7 +85,6 @@ public class MainVerticle extends AbstractVerticle {
 
   private Single<HttpServer> initHttpServer(Router router, JDBCClient jdbcClient) {
     crud = new CrudImpl(jdbcClient);
-    // Create the HTTP server and pass the "accept" method to the request handler.
     return vertx
       .createHttpServer()
       .requestHandler(router)
@@ -191,7 +191,8 @@ public class MainVerticle extends AbstractVerticle {
   }
 
   private void deleteOne(RoutingContext ctx) {
-    crud.deleteEmployee(ctx.get("employeeId"))
+
+    crud.deleteEmployee(Long.parseLong(ctx.pathParam("id")))
       .subscribe(
         () ->
           ctx.response()
